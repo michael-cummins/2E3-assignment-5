@@ -1,0 +1,1 @@
+run = "clang++-7 -o main main.cpp node.cpp; ./main < samples.txt"
