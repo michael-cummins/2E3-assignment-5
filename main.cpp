@@ -18,41 +18,42 @@ int main() {
   cout << "Please enter the name of the book file:" << endl;
   cin >> filename;
 
-  
-  build_tree(wordcount, individual_word_count, root, filename);
+  ifstream xfile;
 
+  build_tree(wordcount, individual_word_count, root, filename);
 
   cout << "The file " << "\"" << filename << "\"" << " contains " << wordcount << " words of which " << individual_word_count << " are distinct." << endl;
   
- // while (cin.eof() == false){
+  while (cin.eof() == false){
     cout << "Please enter the word you wish to check:" << endl;
-    string word_check;
-    cin >> word_check;
-    string s = word_check;
+    string s;
+    cin >> s;
     find_word(root, s);
-  
+  }
   //print_tree(root);
 
  return 0;
 }
 
 void build_tree(int& wordcount, int& individual_word_count, node*& tree, string& filename){
-  try {
-    if(filename != "samples.txt") {
-      throw (file_not_found);
-    }
+  ifstream xfile;
+  xfile.exceptions(std::iostream::failbit);
+  try{
+    xfile.open(filename);
     string t_word;
-    while (cin.eof() == false) {
-      cin >> t_word;
-      if (cin.fail() == false) {
+    string line;
+    while (xfile.eof() == false) {
+      xfile >> t_word;
+      if (xfile.fail() == false) {
         wordcount++;
         if (process_node(t_word, tree)) {
           individual_word_count++;
         }
       }
     }
+    xfile.close();
   }
-  catch(...) {
+  catch(...){
     cout << "An error occurred attempting to open the file " << "\"" << filename << "\"" << "." << endl;
     cout << "Please enter the name of the book file:" << endl;
     cin >> filename;
