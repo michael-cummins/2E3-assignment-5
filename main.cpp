@@ -17,7 +17,6 @@ int main() {
   string filename;
   cout << "Please enter the name of the book file:" << endl;
   cin >> filename;
-
   build_tree(wordcount, individual_word_count, root, filename);
 
   cout << "The file " << "\"" << filename << "\"" << " contains " << wordcount << " words of which " << individual_word_count << " are distinct." << endl;
@@ -96,6 +95,10 @@ bool process_node(string new_node, node*& tree) {
 
 void find_word(node* tree, string word){
   try {
+    //check for dead end
+    if(tree == nullptr){
+      throw(word_not_found);
+    }
     //found the word
     if(word == *tree) {
       if (tree->count == 1) {
@@ -112,21 +115,18 @@ void find_word(node* tree, string word){
       }
     }
     //havent found the word
-    //check for dead end
-    else if ((tree->before == nullptr) && (tree->after == nullptr)) {
-      throw (word_not_found);
-    }
-    if (*tree > word) {
+    else if (word < *tree ) {
       //check before subtree
       find_word(tree->before, word);
     }
-    if (*tree < word) {
+    else if (word > *tree) {
       //check after subtree
       find_word(tree->after, word);
     }
   }
-  catch (...){
+  catch (...) {
     cout << "The word " << "\"" << word << "\"" 
     << " was not found." << endl;
   }
 }
+
