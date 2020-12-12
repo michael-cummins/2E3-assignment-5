@@ -41,7 +41,6 @@ void build_tree(int& wordcount, int& individual_word_count, node*& tree, string&
   try{
     xfile.open(filename);
     string t_word;
-    string line;
     while (xfile.eof() == false) {
       xfile >> t_word;
       if (xfile.fail() == false) {
@@ -77,7 +76,8 @@ bool process_node(string new_node, node*& tree) {
 		tree = new node();
     tree->assign(new_node);
 		response = true; // it is a new node
-	} else {
+	} 
+  else {
     //base case that we're already pointing to the new word
 		if (new_node == *tree) {
 			tree->count++;
